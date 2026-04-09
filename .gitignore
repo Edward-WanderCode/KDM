@@ -22,3 +22,5 @@ Thumbs.db
 # Deployment
 PublishOutput/
 *.iss
+*.exe
+*.zip
