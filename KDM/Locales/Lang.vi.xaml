@@ -7,16 +7,16 @@
     <sys:String x:Key="DownloadManager">Download Manager</sys:String>
     <sys:String x:Key="ActiveDownloads">Đang tải:</sys:String>
     <sys:String x:Key="UrlPlaceholder">Nhập URL để tải...</sys:String>
-    <sys:String x:Key="AddDownload">⬇ Thêm Download</sys:String>
-    <sys:String x:Key="SaveTo">📁 Lưu vào:</sys:String>
+    <sys:String x:Key="AddDownload">Thêm Download</sys:String>
+    <sys:String x:Key="SaveTo">Lưu vào:</sys:String>
     <sys:String x:Key="Threads">Số luồng:</sys:String>
     
-    <sys:String x:Key="BtnPause">⏸ Tạm dừng</sys:String>
-    <sys:String x:Key="BtnResume">▶ Tiếp tục</sys:String>
-    <sys:String x:Key="BtnDelete">🗑 Xóa</sys:String>
-    <sys:String x:Key="BtnPauseAll">⏸ Tạm dừng tất cả</sys:String>
-    <sys:String x:Key="BtnResumeAll">▶ Tiếp tục tất cả</sys:String>
-    <sys:String x:Key="BtnOpenFolder">📂 Mở thư mục</sys:String>
+    <sys:String x:Key="BtnPause">Tạm dừng</sys:String>
+    <sys:String x:Key="BtnResume">Tiếp tục</sys:String>
+    <sys:String x:Key="BtnDelete">Xóa</sys:String>
+    <sys:String x:Key="BtnPauseAll">Tạm dừng tất cả</sys:String>
+    <sys:String x:Key="BtnResumeAll">Tiếp tục tất cả</sys:String>
+    <sys:String x:Key="BtnOpenFolder">Mở thư mục</sys:String>
     
     <sys:String x:Key="ColFileName">Tên file</sys:String>
     <sys:String x:Key="ColProgress">Tiến độ</sys:String>

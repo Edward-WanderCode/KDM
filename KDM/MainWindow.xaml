@@ -373,9 +373,13 @@
 
                     <Button Grid.Column="1"
                             Style="{StaticResource AccentButton}"
-                            Content="{DynamicResource AddDownload}"
                             Command="{Binding AddDownloadCommand}"
-                            MinWidth="140"/>
+                            MinWidth="140">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE896;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                            <TextBlock Text="{DynamicResource AddDownload}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
                 </Grid>
 
                 <!-- Row 2: Save directory + thread count -->
@@ -422,24 +426,48 @@
         <!-- ═══════════════════════════════════════════ -->
         <Border Grid.Row="2" Background="#0D1117" Padding="20,8" BorderBrush="#30363D" BorderThickness="0,0,0,1">
             <StackPanel Orientation="Horizontal">
-                <Button Style="{StaticResource ModernButton}" Content="{DynamicResource BtnPause}"
-                        Command="{Binding PauseCommand}" Margin="0,0,6,0"/>
-                <Button Style="{StaticResource ModernButton}" Content="{DynamicResource BtnResume}"
-                        Command="{Binding ResumeCommand}" Margin="0,0,6,0"/>
-                <Button Style="{StaticResource DangerButton}" Content="{DynamicResource BtnDelete}"
-                        Command="{Binding DeleteCommand}" Margin="0,0,6,0"/>
+                <Button Style="{StaticResource ModernButton}" Command="{Binding PauseCommand}" Margin="0,0,6,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE769;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <TextBlock Text="{DynamicResource BtnPause}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource ModernButton}" Command="{Binding ResumeCommand}" Margin="0,0,6,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <TextBlock Text="{DynamicResource BtnResume}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource DangerButton}" Command="{Binding DeleteCommand}" Margin="0,0,6,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <TextBlock Text="{DynamicResource BtnDelete}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
 
                 <Border Width="1" Background="#30363D" Margin="10,2"/>
 
-                <Button Style="{StaticResource ModernButton}" Content="{DynamicResource BtnPauseAll}"
-                        Command="{Binding PauseAllCommand}" Margin="10,0,6,0"/>
-                <Button Style="{StaticResource ModernButton}" Content="{DynamicResource BtnResumeAll}"
-                        Command="{Binding ResumeAllCommand}" Margin="0,0,6,0"/>
+                <Button Style="{StaticResource ModernButton}" Command="{Binding PauseAllCommand}" Margin="10,0,6,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE769;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <TextBlock Text="{DynamicResource BtnPauseAll}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource ModernButton}" Command="{Binding ResumeAllCommand}" Margin="0,0,6,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <TextBlock Text="{DynamicResource BtnResumeAll}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
 
                 <Border Width="1" Background="#30363D" Margin="10,2"/>
 
-                <Button Style="{StaticResource ModernButton}" Content="{DynamicResource BtnOpenFolder}"
-                        Command="{Binding OpenFileLocationCommand}" Margin="10,0,0,0"/>
+                <Button Style="{StaticResource ModernButton}" Command="{Binding OpenFileLocationCommand}" Margin="10,0,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE8DA;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <TextBlock Text="{DynamicResource BtnOpenFolder}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
             </StackPanel>
         </Border>
 
@@ -479,12 +507,89 @@
 
                 <!-- List -->
                 <ListBox Grid.Row="1"
+                         x:Name="DownloadListBox"
                          ItemsSource="{Binding Downloads}"
                          SelectedItem="{Binding SelectedItem}"
+                         SelectionMode="Extended"
                          Background="Transparent"
                          BorderThickness="0"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                          VirtualizingPanel.IsVirtualizing="True">
+
+                    <!-- Context Menu (Dark Theme) -->
+                    <ListBox.ContextMenu>
+                        <ContextMenu Background="#1C2128" BorderBrush="#30363D" BorderThickness="1" Foreground="#C9D1D9">
+                            <ContextMenu.Resources>
+                                <Style TargetType="MenuItem">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Foreground" Value="#C9D1D9"/>
+                                    <Setter Property="Padding" Value="8,6"/>
+                                    <Setter Property="FontSize" Value="12"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsHighlighted" Value="True">
+                                            <Setter Property="Background" Value="#30363D"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                                <Style TargetType="Separator">
+                                    <Setter Property="Background" Value="#30363D"/>
+                                    <Setter Property="Margin" Value="4,2"/>
+                                </Style>
+                            </ContextMenu.Resources>
+                            <MenuItem Click="CtxOpenFile_Click">
+                                <MenuItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="&#xE8E5;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                        <TextBlock Text="Mở file / Open File" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem Click="CtxOpenFolder_Click">
+                                <MenuItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="&#xE8DA;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                        <TextBlock Text="Mở thư mục / Open Folder" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Click="CtxCopyUrl_Click">
+                                <MenuItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="&#xE8C8;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                        <TextBlock Text="Sao chép URL / Copy URL" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Click="CtxPause_Click">
+                                <MenuItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="&#xE769;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                        <TextBlock Text="Tạm dừng / Pause" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem Click="CtxResume_Click">
+                                <MenuItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                        <TextBlock Text="Tiếp tục / Resume" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Click="CtxDelete_Click">
+                                <MenuItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,8,0" Foreground="#F85149"/>
+                                        <TextBlock Text="Xóa / Delete" VerticalAlignment="Center" Foreground="#F85149"/>
+                                    </StackPanel>
+                                </MenuItem.Header>
+                            </MenuItem>
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

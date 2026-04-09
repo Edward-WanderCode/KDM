@@ -10,3 +10,4 @@ global using MessageBoxResult = System.Windows.MessageBoxResult;
 global using Color = System.Windows.Media.Color;
 global using Window = System.Windows.Window;
 global using WindowState = System.Windows.WindowState;
+global using Clipboard = System.Windows.Clipboard;

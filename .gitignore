@@ -18,3 +18,7 @@ Logs/
 
 # Windows image cache
 Thumbs.db
+
+# Deployment
+PublishOutput/
+*.iss

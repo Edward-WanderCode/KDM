@@ -92,6 +92,11 @@ namespace KDM.UI
         public ICommand BrowseFolderCommand { get; }
         public ICommand OpenFileLocationCommand { get; }
 
+        // Commands cho context menu multi-select (nhận ID trực tiếp)
+        public ICommand? DeleteByIdCommand { get; }
+        public ICommand? PauseByIdCommand { get; }
+        public ICommand? ResumeByIdCommand { get; }
+
         public MainViewModel()
         {
             _settings = new AppSettings();
@@ -111,6 +116,23 @@ namespace KDM.UI
             ResumeAllCommand = new AsyncRelayCommand(_ => ResumeAllAsync());
             BrowseFolderCommand = new RelayCommand(_ => BrowseFolder());
             OpenFileLocationCommand = new RelayCommand(_ => OpenFileLocation(), _ => SelectedItem != null);
+
+            // Multi-select context menu commands
+            DeleteByIdCommand = new RelayCommand(param =>
+            {
+                if (param is DeleteRequest req)
+                {
+                    _scheduler.RemoveDownload(req.Id, req.DeleteFile);
+                }
+            });
+            PauseByIdCommand = new RelayCommand(param =>
+            {
+                if (param is string id) _scheduler.PauseDownload(id);
+            });
+            ResumeByIdCommand = new AsyncRelayCommand(async param =>
+            {
+                if (param is string id) await _scheduler.ResumeDownloadAsync(id);
+            });
 
             // Khởi tạo Extension Server (nhận link từ browser)
             _extensionServer = new ExtensionServer(52888);
@@ -358,4 +380,9 @@ namespace KDM.UI
             return $"{speed:F2} {units[idx]}";
         }
     }
+
+    /// <summary>
+    /// Record chứa thông tin request xóa download (dùng cho multi-select context menu)
+    /// </summary>
+    public record DeleteRequest(string Id, bool DeleteFile);
 }
