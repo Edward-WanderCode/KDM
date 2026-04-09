@@ -22,8 +22,8 @@
 
 ### 📥 Installation & Setup
 
-**1. Install the KDM Desktop Application:**
-* **General Users:** Go to the [Releases page](../../releases) and download the latest `KDM_Setup_v1.0.0.exe`. Run the installer to set up the application with desktop and start menu shortcuts.
+**1. Run the KDM Desktop Application:**
+* **General Users:** Go to the [Releases page](../../releases) and download the standalone `KDM.exe`. No installation required—just run the executable directly on any Windows machine!
 * **Developers:** Clone the repository and compile using the .NET 8 CLI:
   ```bash
   dotnet build
@@ -52,8 +52,8 @@
 
 ### 📥 Tải Xuống và Cài Đặt
 
-**1. Cài Đặt Trình Quản Lý KDM:**
-* **Người Dùng Phổ Thông:** Vui lòng truy cập trang [Releases](../../releases) trên Github, tải xuống tệp `KDM_Setup_v1.0.0.exe` mới nhất và tiến hành cài đặt. Quy trình cài đặt sẽ tự động tạo shortcut và thiết lập ứng dụng.
+**1. Sử Dụng Trình Quản Lý KDM:**
+* **Người Dùng Phổ Thông:** Vui lòng truy cập trang [Releases](../../releases) trên Github và tải xuống tệp tĩnh `KDM.exe`. Phần mềm đã được đóng gói thành 1 file duy nhất (Portable), không cần cài đặt setup, chỉ cần mở lên và sử dụng ngay trên bất kỳ máy Windows nào.
 * **Nhà Phát Triển (Developer):** Tải mã nguồn và sử dụng .NET 8 để biên dịch:
   ```bash
   dotnet build
