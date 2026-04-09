@@ -461,7 +461,7 @@ namespace KDM.Network
         /// Tải một segment (phần) của file.
         /// Sử dụng Range header để tải từ startByte đến endByte.
         /// </summary>
-        public async Task<System.IO.Stream> GetRangeStreamAsync(string url, long startByte, long endByte, CancellationToken ct = default)
+        public async Task<HttpResponseMessage> GetRangeResponseAsync(string url, long startByte, long endByte, CancellationToken ct = default)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             request.Headers.Range = new RangeHeaderValue(startByte, endByte);
@@ -469,7 +469,7 @@ namespace KDM.Network
             var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, ct);
             response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadAsStreamAsync(ct);
+            return response;
         }
 
         /// <summary>

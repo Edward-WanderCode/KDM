@@ -137,8 +137,31 @@ namespace KDM.Core
                 }
                 else
                 {
-                    // Multi-thread download
-                    await DownloadMultiThreadAsync(item, ct);
+                    try
+                    {
+                        // Multi-thread download
+                        await DownloadMultiThreadAsync(item, ct);
+                    }
+                    catch (NotSupportedException ex) when (ex.Message == "RANGE_NOT_SUPPORTED")
+                    {
+                        _log.Warning("Server ignores Range during multi-thread. Falling back to single-thread.");
+                        _fileManager.CleanupTempFiles(item);
+                        item.ThreadCount = 1;
+                        item.SupportsRange = false;
+                        item.DownloadedSize = 0;
+                        item.Segments = new List<DownloadSegment>
+                        {
+                            new DownloadSegment
+                            {
+                                Index = 0,
+                                StartByte = 0,
+                                EndByte = item.TotalSize > 0 ? item.TotalSize - 1 : 0,
+                                TempFilePath = _fileManager.GetSegmentTempPath(item, 0)
+                            }
+                        };
+                        _fileManager.SaveState(item);
+                        await DownloadSingleThreadAsync(item, ct);
+                    }
                 }
 
                 // Kiểm tra lại nếu bị cancel
@@ -275,7 +298,14 @@ namespace KDM.Core
                     _log.Debug("Tải segment {Index}: bytes {Start}-{End}",
                         segment.Index, startByte, endByte);
 
-                    using var stream = await _httpClient.GetRangeStreamAsync(item.Url, startByte, endByte, ct);
+                    using var response = await _httpClient.GetRangeResponseAsync(item.Url, startByte, endByte, ct);
+                    
+                    if (response.StatusCode != System.Net.HttpStatusCode.PartialContent)
+                    {
+                        throw new NotSupportedException("RANGE_NOT_SUPPORTED");
+                    }
+                    
+                    using var stream = await response.Content.ReadAsStreamAsync(ct);
 
                     // Mở file để ghi (append nếu resume)
                     var fileMode = segment.DownloadedBytes > 0 ? FileMode.Append : FileMode.Create;
@@ -284,13 +314,15 @@ namespace KDM.Core
 
                     var buffer = new byte[_settings.BufferSize];
                     int bytesRead;
+                    long bytesRemaining = endByte - startByte + 1; // Strict bound
 
-                    while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length, ct)) > 0)
+                    while (bytesRemaining > 0 && (bytesRead = await stream.ReadAsync(buffer, 0, (int)Math.Min(buffer.Length, bytesRemaining), ct)) > 0)
                     {
                         ct.ThrowIfCancellationRequested();
 
                         fileStream.Write(buffer, 0, bytesRead);
                         segment.DownloadedBytes += bytesRead;
+                        bytesRemaining -= bytesRead;
 
                         // Giới hạn băng thông nếu có cấu hình
                         if (item.SpeedLimit > 0)
@@ -307,6 +339,10 @@ namespace KDM.Core
                     _log.Debug("Segment {Index} hoàn tất", segment.Index);
                     return; // Thoát vòng retry
 
+                }
+                catch (NotSupportedException)
+                {
+                    throw; // Do not retry if Range is not supported
                 }
                 catch (OperationCanceledException)
                 {
@@ -371,11 +407,9 @@ namespace KDM.Core
                         segment.DownloadedBytes = totalRead;
                         item.DownloadedSize = totalRead;
 
-                        // Cập nhật tổng dung lượng nếu chưa biết
-                        if (item.TotalSize <= 0)
-                        {
-                            item.TotalSize = totalRead;
-                        }
+                        // Cập nhật tổng dung lượng UI nếu chưa biết nhưng KHÔNG ghi đè TotalSize (tránh lỗi file size trong lúc tải single thread nếu bị resume)
+                        // Trong Single Thread Fallback, chúng ta đợi nó tải xong hoàn toàn
+
 
                         // Tính speed mỗi 500ms
                         if (speedTimer.ElapsedMilliseconds >= 500)
@@ -398,6 +432,12 @@ namespace KDM.Core
                             var delayMs = (int)(bytesRead * 1000.0 / item.SpeedLimit);
                             if (delayMs > 0) await Task.Delay(delayMs, ct);
                         }
+                    }
+
+                    // Khi tải xong, cập nhật lại dung lượng thực tế
+                    if (item.TotalSize <= 0)
+                    {
+                        item.TotalSize = totalRead;
                     }
 
                     segment.Status = SegmentStatus.Completed;
