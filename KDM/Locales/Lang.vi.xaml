@@ -1,0 +1,33 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    
+    <!-- Tiếng Việt -->
+    <sys:String x:Key="AppTitle">KDM - Trình Quản Lý Tải Xuống</sys:String>
+    <sys:String x:Key="DownloadManager">Download Manager</sys:String>
+    <sys:String x:Key="ActiveDownloads">Đang tải:</sys:String>
+    <sys:String x:Key="UrlPlaceholder">Nhập URL để tải...</sys:String>
+    <sys:String x:Key="AddDownload">⬇ Thêm Download</sys:String>
+    <sys:String x:Key="SaveTo">📁 Lưu vào:</sys:String>
+    <sys:String x:Key="Threads">Số luồng:</sys:String>
+    
+    <sys:String x:Key="BtnPause">⏸ Tạm dừng</sys:String>
+    <sys:String x:Key="BtnResume">▶ Tiếp tục</sys:String>
+    <sys:String x:Key="BtnDelete">🗑 Xóa</sys:String>
+    <sys:String x:Key="BtnPauseAll">⏸ Tạm dừng tất cả</sys:String>
+    <sys:String x:Key="BtnResumeAll">▶ Tiếp tục tất cả</sys:String>
+    <sys:String x:Key="BtnOpenFolder">📂 Mở thư mục</sys:String>
+    
+    <sys:String x:Key="ColFileName">Tên file</sys:String>
+    <sys:String x:Key="ColProgress">Tiến độ</sys:String>
+    <sys:String x:Key="ColSpeed">Tốc độ</sys:String>
+    <sys:String x:Key="ColSize">Dung lượng</sys:String>
+    <sys:String x:Key="ColEta">ETA</sys:String>
+    <sys:String x:Key="ColStatus">Trạng thái</sys:String>
+    
+    <sys:String x:Key="NoDownloadsIcon">⬇</sys:String>
+    <sys:String x:Key="NoDownloadsTitle">Chưa có download nào</sys:String>
+    <sys:String x:Key="NoDownloadsSub">Nhập URL ở trên để bắt đầu tải</sys:String>
+    
+    <sys:String x:Key="LangToggle">English</sys:String>
+</ResourceDictionary>

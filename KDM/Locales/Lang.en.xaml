@@ -1,0 +1,33 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    
+    <!-- English -->
+    <sys:String x:Key="AppTitle">KDM - Download Manager</sys:String>
+    <sys:String x:Key="DownloadManager">Download Manager</sys:String>
+    <sys:String x:Key="ActiveDownloads">Active:</sys:String>
+    <sys:String x:Key="UrlPlaceholder">Enter URL to download...</sys:String>
+    <sys:String x:Key="AddDownload">⬇ Add Download</sys:String>
+    <sys:String x:Key="SaveTo">📁 Save to:</sys:String>
+    <sys:String x:Key="Threads">Threads:</sys:String>
+    
+    <sys:String x:Key="BtnPause">⏸ Pause</sys:String>
+    <sys:String x:Key="BtnResume">▶ Resume</sys:String>
+    <sys:String x:Key="BtnDelete">🗑 Delete</sys:String>
+    <sys:String x:Key="BtnPauseAll">⏸ Pause All</sys:String>
+    <sys:String x:Key="BtnResumeAll">▶ Resume All</sys:String>
+    <sys:String x:Key="BtnOpenFolder">📂 Open Folder</sys:String>
+    
+    <sys:String x:Key="ColFileName">File Name</sys:String>
+    <sys:String x:Key="ColProgress">Progress</sys:String>
+    <sys:String x:Key="ColSpeed">Speed</sys:String>
+    <sys:String x:Key="ColSize">Size</sys:String>
+    <sys:String x:Key="ColEta">ETA</sys:String>
+    <sys:String x:Key="ColStatus">Status</sys:String>
+    
+    <sys:String x:Key="NoDownloadsIcon">⬇</sys:String>
+    <sys:String x:Key="NoDownloadsTitle">No downloads yet</sys:String>
+    <sys:String x:Key="NoDownloadsSub">Enter URL above to start downloading</sys:String>
+    
+    <sys:String x:Key="LangToggle">Tiếng Việt</sys:String>
+</ResourceDictionary>

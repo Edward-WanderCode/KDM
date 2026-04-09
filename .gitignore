@@ -1,0 +1,20 @@
+# build output
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# IDE
+.vs/
+.vscode/
+
+# Logs
+Logs/
+*.log
+
+# Windows image cache
+Thumbs.db

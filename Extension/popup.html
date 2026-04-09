@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 340px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #0D1117;
+      color: #C9D1D9;
+    }
+
+    /* Header */
+    .header {
+      background: #161B22;
+      padding: 16px 18px;
+      border-bottom: 1px solid #30363D;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header-icon { font-size: 20px; }
+    .header-title { font-size: 16px; font-weight: 700; }
+    .header-version { font-size: 11px; color: #8B949E; margin-left: auto; }
+
+    /* Status */
+    .status-section {
+      padding: 14px 18px;
+      border-bottom: 1px solid #21262D;
+    }
+    .status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .status-row:last-child { margin-bottom: 0; }
+    .status-label { font-size: 13px; color: #8B949E; }
+    .status-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      display: inline-block; margin-right: 6px;
+    }
+    .status-dot.connected { background: #3FB950; box-shadow: 0 0 6px #3FB95080; }
+    .status-dot.disconnected { background: #F85149; box-shadow: 0 0 6px #F8514980; }
+    .status-text { font-size: 13px; font-weight: 500; }
+
+    /* Toggle switch */
+    .toggle-wrapper { display: flex; align-items: center; gap: 8px; }
+    .toggle {
+      position: relative;
+      width: 40px; height: 22px;
+      cursor: pointer;
+    }
+    .toggle input { display: none; }
+    .toggle-slider {
+      position: absolute; inset: 0;
+      background: #30363D;
+      border-radius: 11px;
+      transition: background 0.2s;
+    }
+    .toggle-slider::before {
+      content: '';
+      position: absolute;
+      width: 16px; height: 16px;
+      left: 3px; top: 3px;
+      background: #C9D1D9;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+    .toggle input:checked + .toggle-slider { background: #238636; }
+    .toggle input:checked + .toggle-slider::before { transform: translateX(18px); }
+
+    /* URL input section */
+    .input-section {
+      padding: 14px 18px;
+      border-bottom: 1px solid #21262D;
+    }
+    .input-label { font-size: 12px; color: #8B949E; margin-bottom: 8px; }
+    .input-row { display: flex; gap: 8px; }
+    .url-input {
+      flex: 1;
+      background: #0D1117;
+      border: 1px solid #30363D;
+      border-radius: 6px;
+      color: #C9D1D9;
+      padding: 8px 10px;
+      font-size: 12px;
+      outline: none;
+      font-family: inherit;
+    }
+    .url-input:focus { border-color: #58A6FF; }
+    .url-input::placeholder { color: #484F58; }
+    .send-btn {
+      background: #238636;
+      color: white;
+      border: 1px solid #2EA043;
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: inherit;
+      transition: background 0.15s;
+    }
+    .send-btn:hover { background: #2EA043; }
+    .send-btn:active { background: #1B6D2F; }
+    .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Info */
+    .info-section {
+      padding: 12px 18px;
+    }
+    .info-text {
+      font-size: 11px;
+      color: #484F58;
+      line-height: 1.5;
+    }
+
+    /* Message */
+    .message {
+      padding: 8px 18px;
+      font-size: 12px;
+      text-align: center;
+      transition: opacity 0.3s;
+    }
+    .message.success { color: #3FB950; background: #0D1117; }
+    .message.error { color: #F85149; background: #0D1117; }
+    .message.hidden { opacity: 0; height: 0; padding: 0; overflow: hidden; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <span class="header-icon">⬇</span>
+    <span class="header-title">KDM Catcher</span>
+    <span class="header-version">v1.0</span>
+  </div>
+
+  <!-- Status -->
+  <div class="status-section">
+    <div class="status-row">
+      <span class="status-label">KDM App</span>
+      <div>
+        <span id="statusDot" class="status-dot disconnected"></span>
+        <span id="statusText" class="status-text">Đang kiểm tra...</span>
+      </div>
+    </div>
+    <div class="status-row">
+      <span class="status-label">Tự động bắt link</span>
+      <div class="toggle-wrapper">
+        <label class="toggle">
+          <input type="checkbox" id="toggleEnabled" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- URL Input -->
+  <div class="input-section">
+    <div class="input-label">Gửi URL thủ công:</div>
+    <div class="input-row">
+      <input type="text" id="urlInput" class="url-input" placeholder="https://example.com/file.zip">
+      <button id="sendBtn" class="send-btn">Gửi KDM</button>
+    </div>
+  </div>
+
+  <!-- Message -->
+  <div id="message" class="message hidden"></div>
+
+  <!-- Info -->
+  <div class="info-section">
+    <div class="info-text">
+      💡 Chuột phải vào link → "Tải với KDM"<br>
+      💡 Click link file sẽ tự động gửi về KDM<br>
+      💡 KDM phải đang chạy để nhận link
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
