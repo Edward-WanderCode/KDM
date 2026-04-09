@@ -31,10 +31,10 @@
   ```
 
 **2. Install the Browser Extension:**
-1. Open your browser's extensions page (`edge://extensions` or `chrome://extensions`).
-2. Enable **Developer Mode**.
-3. Click **Load unpacked** and select the `/Extension` folder from the extracted source code.
-4. The extension will now automatically forward supported download links to the KDM desktop application.
+- **Google Chrome / Brave:** [Install from Chrome Web Store](#) *(Link coming soon!)*
+- **Microsoft Edge:** [Install from Edge Add-ons](#) *(Link coming soon!)*
+
+*(Note: While the extension is pending store approval, you can still install it manually. Open `chrome://extensions`, enable **Developer Mode**, click **Load unpacked**, and select the `/Extension` folder from the source code.)*
 
 ---
 
@@ -61,10 +61,10 @@
   ```
 
 **2. Cài Đặt Extension Cho Trình Duyệt:**
-1. Mở phần quản lý Tiện ích trên trình duyệt (`edge://extensions` hoặc `chrome://extensions`).
-2. Bật tuỳ chọn **Developer Mode** (Chế độ dành cho nhà phát triển).
-3. Nhấp vào nút **Load unpacked** (Tải tiện ích đã giải nén) và trỏ đến vị trí thư mục `/Extension` nằm trong mã nguồn.
-4. Từ bây giờ, Extension sẽ tự động hỗ trợ bắt các lệnh tải file kích thước lớn từ trình duyệt qua KDM.
+- **Google Chrome / Brave:** [Tải từ Chrome Web Store](#) *(Link sẽ sớm được cập nhật!)*
+- **Microsoft Edge:** [Tải từ Edge Add-ons](#) *(Link sẽ sớm được cập nhật!)*
+
+*(Lưu ý: Trong thời gian chờ xét duyệt lên Store, bạn có thể cài đặt thủ công bằng cách mở `chrome://extensions`, bật **Developer Mode**, chọn **Load unpacked** và chọn thư mục `/Extension` trong mã nguồn.)*
 
 ---
 
