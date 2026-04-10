@@ -1,7 +1,6 @@
 # build output
 bin/
 obj/
-PublishOutput/
 
 # User-specific files
 *.user
