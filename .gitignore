@@ -1,6 +1,7 @@
 # build output
 bin/
 obj/
+PublishOutput/
 
 # User-specific files
 *.user
@@ -18,9 +19,3 @@ Logs/
 
 # Windows image cache
 Thumbs.db
-
-# Deployment
-PublishOutput/
-*.iss
-*.exe
-*.zip
